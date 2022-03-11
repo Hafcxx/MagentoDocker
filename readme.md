@@ -10,7 +10,7 @@ _Implementación proyecto Magento 2 en entorno Docker_
 
 _Clonar Repositorio._
 ```
-git clone xxxxxx
+git clone https://github.com/GusVasquez/MagentoDocker magento
 ```
 _Una vez clonado el repositorio configurar la terminal en la direccion del repositorio_
 
