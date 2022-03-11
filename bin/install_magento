@@ -1,0 +1,20 @@
+#!/bin/bash
+docker-compose exec -T phpfpm bin/magento setup:install \
+  --db-host=database \
+  --db-name=magento \
+  --db-user=magento \
+  --db-password=magento \
+  --base-url=http://magento.test \
+  --backend-frontname=admin \
+  --admin-firstname=admin \
+  --admin-lastname=admin \
+  --admin-email=admin@admin.com \
+  --admin-user=admin \
+  --admin-password=Magento@2 \
+  --language=es_CL \
+  --currency=CLP \
+  --use-rewrites=1 \
+  --search-engine=elasticsearch7 \
+  --elasticsearch-host=elasticsearch \
+  --elasticsearch-port=9200 \
+  --elasticsearch-index-prefix=magento

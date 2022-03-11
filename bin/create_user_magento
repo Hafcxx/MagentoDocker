@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "¿Crear usuario Admin de Magento? s/n"
+read CONFIG_USER
+
+case $CONFIG_USER in
+    "s")
+        echo "Nombre de usuario admin: "
+        read USER_NAME
+        echo "$USER_NAME contraseña: "
+        read USER_PASSWORD
+        echo "$USER_NAME email: "
+        read USER_EMAIL
+        echo "$USER_NAME firstname: "
+        read USER_FIRSTNAME
+        echo "$USER_NAME lastname: "
+        read USER_LASTNAME
+        docker-compose exec -T phpfpm bin/magento admin:user:create --admin-user=$USER_NAME --admin-password=$USER_PASSWORD --admin-email=$USER_EMAIL --admin-firstname=$USER_FIRSTNAME --admin-lastname=$USER_LASTNAME
+        ;;
+esac

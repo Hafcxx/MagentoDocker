@@ -1,0 +1,2 @@
+#!/bin/bash
+docker-compose exec -T phpfpm bin/magento setup:config:set --no-interaction --amqp-host=rabbitmq --amqp-port=5672 --amqp-user=magento --amqp-password=magento --amqp-virtualhost=/ --consumers-wait-for-messages=1

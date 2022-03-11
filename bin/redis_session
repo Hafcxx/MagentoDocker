@@ -1,0 +1,2 @@
+#!/bin/bash
+docker-compose exec -T phpfpm bin/magento setup:config:set --no-interaction --session-save=redis --session-save-redis-host=redis --session-save-redis-log-level=4 --session-save-redis-db=2

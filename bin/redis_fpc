@@ -1,0 +1,2 @@
+#!/bin/bash
+docker-compose exec -T phpfpm bin/magento setup:config:set --no-interaction  --page-cache=redis --page-cache-redis-server=redis --page-cache-redis-db=1
