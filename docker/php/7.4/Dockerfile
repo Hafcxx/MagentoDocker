@@ -89,6 +89,9 @@ COPY ./php.ini /usr/local/etc/php/
 COPY ./php-fpm.conf /usr/local/etc/
 COPY bin/cronstart /usr/local/bin/
 
+#cambia permisos para que el cron pueda ejecutarlo
+RUN chmod a+x /usr/local/bin/cronstart 
+
 RUN mkdir -p /etc/nginx/html /var/www/html /sock \
   && chown -R app:app /etc/nginx /var/www /usr/local/etc/php/conf.d /sock
 
