@@ -1,4 +1,4 @@
 data/*
-docker-images/php/7.4/.composer/cache
+docker/php/7.4/.composer/cache
 magento/vendor
 *.sql
