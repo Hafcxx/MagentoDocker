@@ -3,9 +3,9 @@
 VERSION=${1:-2.4.3-p1}
 EDITION=${2:-community}
 
-bin/stop
-docker-compose -f docker-compose.yml up -d
-[ $? != 0 ] && echo "Fallo al iniciar contenedores Docker" && exit
+#bin/stop
+#docker-compose -f docker-compose.yml up -d
+#[ $? != 0 ] && echo "Fallo al iniciar contenedores Docker" && exit
 
 bin/setup-composer-auth
 

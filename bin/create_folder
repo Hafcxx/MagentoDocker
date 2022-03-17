@@ -1,2 +1,2 @@
 #!/bin/bash
-mkdir -p ./data/elastic_data ./data/elastic_log ./data/maria_data ./data/maria_log ./data/nginx_log ./data/phpfpm_log ./data/redis_data ./data/sock
+mkdir -p ./magento ./data/elastic_data ./data/elastic_log ./data/maria_data ./data/maria_log ./data/nginx_log ./data/phpfpm_log ./data/redis_data ./data/sock

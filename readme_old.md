@@ -10,20 +10,42 @@ _Implementación proyecto Magento 2 en entorno Docker_
 
 _Clonar Repositorio._
 ```
-git clone https://github.com/GusVasquez/MagentoDocker magento2
+git clone https://github.com/GusVasquez/MagentoDocker magento
 ```
 _Una vez clonado el repositorio configurar la terminal en la direccion del repositorio_
 
 ```
-cd magento2
+cd magento
 ```
 
 ### 2. Compilación 🔧
-2.0 Instalacion en 1 paso el comando bin/install (instala por defecto dominio: magento.test, version: 2.4.3-p1 y edicion: community)
+2.0 Cambiar permisos de los archivos bash, ejecutar comando:
 ```
-bin/install-docker 
+chmod +x bin/* 
 ```
-2.1 Crear dominio en el archivo host
+2.1 Crear el directorio data, ejecutar comando:
+```
+bin/create_folder
+```
+2.2 Completado los puntos anteriores, procedemos con la ejecución del docker-compose.yml de la siguiente manera:
+```
+bin/build
+```
+2.3 Para validar que los contenedores esten ejecutados correctamente 
+```
+docker-compose ps
+```
+_Todos los contenedores deben estar en status UP_ 
+
+2.4 Instalar dependencias de Magento
+```
+bin/composer install
+```
+2.5 Instalar Magento
+```
+bin/install_magento
+```
+2.6.1 Crear dominio en el archivo host
 _Linux_
 ```
 echo "127.0.0.1 ::1 magento.test" | sudo tee -a /etc/hosts 

@@ -1,0 +1,29 @@
+#!/bin/bash
+DOMAIN=${1:-magento.test}
+VERSION=${2:-2.4.3-p1}
+EDITION=${3:-community}
+
+#sudo rm -rf ./data/ && sudo rm -rf ./magento/
+
+#Cambiar Permisos de directorio bin
+bin/permiso_folder
+
+#Crear Directorios Data y Base Magento
+bin/create_folder
+
+#Crear Contenedores Docker
+bin/build
+[ $? != 0 ] && echo "Error al iniciar los contenedores" && exit
+
+#Descargar Magento 2 
+bin/setup_download_magento ${VERSION} ${EDITION}
+[ $? != 0 ] && echo "Error al descargar Magento 2" && exit
+
+#Instalar Magento 2
+bin/install_magento
+
+#Cambiar default vhost de nginx cambiar archivos
+bin/cli_nginx mv /etc/nginx/_default.conf /etc/nginx/conf.d/default.conf
+
+#Reiniciar contenedores luego de cambiar nginx
+bin/restart
