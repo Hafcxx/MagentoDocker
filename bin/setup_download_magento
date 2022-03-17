@@ -8,5 +8,5 @@ EDITION=${2:-community}
 #[ $? != 0 ] && echo "Fallo al iniciar contenedores Docker" && exit
 
 bin/setup-composer-auth
-
+bin/composer config -g repo.packagist composer https://packagist.org
 bin/composer create-project --repository=https://repo.magento.com/ magento/project-"${EDITION}"-edition="${VERSION}" .
