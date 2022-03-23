@@ -44,3 +44,13 @@ bin/magento se:up
 
 #Reiniciar contenedores luego de cambiar nginx
 bin/restart
+
+##Instalar los Host en linux y Windows WSL
+
+##Instalar DataExample
+
+##Xdebug
+
+##SSl
+
+##PWA
