@@ -1,0 +1,5 @@
+#!/bin/bash
+[ -z "$1" ] && echo "Por Favor ingrese un comando (ex. status)" && exit
+bin/root_phpfpm service cron "$@"
+bin/root_phpfpm touch /var/www/html/var/.setup_cronjob_status /var/www/html/var/.update_cronjob_status
+bin/root_phpfpm chown app:app /var/www/html/var/.setup_cronjob_status /var/www/html/var/.update_cronjob_status

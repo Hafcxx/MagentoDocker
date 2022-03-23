@@ -34,43 +34,14 @@ services:
     expose:
       - 6379
 
-  cron:
-    build:
-      context: ./docker/php/${PHP_VERSION}
-    user: root
-    command: /usr/local/bin/cronstart
-    tty: true
-    links:
-      - database
-      - elasticsearch
-      - rabbitmq
-    volumes:
-      - ./magento:/var/www/html
-      - ./data/sock:/sock
-
   database:
     image: mariadb:${MARIADB_VERSION}
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    env_file: env/db.env
     volumes:
       - ./data/maria_data:/var/lib/mysql
       - ./data/maria_log:/var/log/mysql
     ports:
       - 3306:3306
-
-  phpmyadmin:
-    depends_on:
-      - database
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    ports:
-      - "8036:80"
-    environment:
-      PMA_HOST: database
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
   elasticsearch:
     image: elasticsearch:${ELASTICSEARCH_VERSION}
@@ -95,9 +66,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:${RABBITMQ_VERSION}
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    env_file: env/rabbitmq.env
     ports:
       - 15672:15672
       - 5672:5672

@@ -7,7 +7,6 @@ RUN mkdir /sock
 
 COPY ./nginx.conf /etc/nginx/
 COPY ./default.conf /etc/nginx/conf.d/
-COPY ./_default.conf /etc/nginx/
 
 RUN mkdir -p /var/www/html
 RUN chown -R app:app /etc/nginx /var/www /var/cache/nginx /var/run/nginx.pid /sock
