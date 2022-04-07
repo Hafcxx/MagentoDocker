@@ -1,0 +1,14 @@
+{
+    "configurations": [
+
+      {
+        "name": "Listen for XDebug",
+        "type": "php",
+        "request": "launch",
+        "pathMappings": {
+          "/var/www/html": "/home/gus/Sites/MagentoDocker/magento"
+        },
+        "port": 9003,
+      }
+    ]
+  }

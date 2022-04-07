@@ -1,0 +1,4 @@
+#!/bin/bash
+[ -z "$1" ] && echo "Por Favor ingrese un comando (ej. ls)" && exit
+# -T: Disable pseudo-tty allocation
+docker-compose exec -u root -T nginx "$@"
