@@ -59,8 +59,8 @@ RUN cd /tmp \
 RUN pecl channel-update pecl.php.net \
   && pecl install xdebug
 
-RUN docker-php-ext-enable xdebug \
-  && sed -i -e 's/^zend_extension/\;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN docker-php-ext-enable xdebug
+#\ && sed -i -e 's/^zend_extension/\;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 RUN curl -o /tmp/ssh2-1.2.tgz https://pecl.php.net/get/ssh2 \
   && pear install /tmp/ssh2-1.2.tgz \
@@ -101,4 +101,4 @@ VOLUME /var/www
 
 WORKDIR /var/www/html
 
-EXPOSE 9001
+EXPOSE 9000

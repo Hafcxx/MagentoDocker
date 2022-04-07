@@ -20,6 +20,8 @@ services:
       context: ./docker/php/${PHP_VERSION}
     links:
       - database
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./docker/php/${PHP_VERSION}/.composer:/var/www/.composer
       - ./magento:/var/www/html
