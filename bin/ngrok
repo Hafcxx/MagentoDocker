@@ -1,0 +1,13 @@
+#!/bin/bash
+DOMINIO=${1:-magento.test}
+
+#Cambiar default vhost de nginx
+bin/cli_nginx sed -i "s/#//g" /etc/nginx/conf.d/default.conf
+bin/cli_nginx sed -i "s/server_name magento.test/server_name ${DOMINIO}/g" /etc/nginx/conf.d/default.conf
+
+bin/magento setup:store-config:set --base-url="http://${DOMINIO}/"
+bin/magento setup:store-config:set --base-url-secure="https://${DOMINIO}/"
+
+bin/magento cache:flush
+
+bin/restart
