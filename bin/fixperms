@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Cambiando Permisos Magento de los archivos..."
+
+if [ -z "$1" ]; then
+  bin/cli_phpfpm find var vendor pub/static pub/media app/etc \( -type f -or -type d \) -exec chmod u+w {} +;
+  bin/cli_phpfpm chmod u+x bin/magento
+else
+  bin/cli_phpfpm find "$1" \( -type f -or -type d \) -exec chmod u+w {} +;
+fi
+

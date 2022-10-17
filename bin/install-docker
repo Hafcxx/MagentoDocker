@@ -1,37 +1,48 @@
 #!/bin/bash
 DOMINIO=${1:-magento.test}
-VERSION=${2:-2.4.3-p1}
+VERSION=${2:-2.4.5}
 EDITION=${3:-community}
 
-#sudo rm -rf ./data/ && sudo rm -rf ./magento/
-
 #Cambiar Permisos de directorio bin
+echo "Cambiando Permiso del directorio bin..."
 bin/permiso_folder
 
 #Crear Directorios Data y Base Magento
+echo "Crear directorio Magento..."
 bin/create_folder
 
 #Crear Contenedores Docker
+echo "Crear directorio Magento..."
 bin/build
 [ $? != 0 ] && echo "Error al iniciar los contenedores" && exit
 
+echo "Descargando Magento ${VERSION}..."
 #Descargar Magento 2 
 bin/setup_download_magento ${VERSION} ${EDITION}
 [ $? != 0 ] && echo "Error al descargar Magento 2" && exit
 
+#copiar archivo de nginx.conf.sample para que funcione nginx
+echo "Realizando Copia de Archivo nginx.conf.sample a nginx.conf..."
+cp -r magento/nginx.conf.sample magento/nginx.conf
+
+echo "Instalando Magento..."
 #Instalar Magento 2
 bin/install_magento ${DOMINIO}
 
-#Cambiar a modo develop
-bin/magento deploy:mode:set developer
+echo "Configurando la URL básica y generando el certificado SSL..."
+bin/setup-domain "${DOMINIO}"
 
-#Cambiar default vhost de nginx
-bin/cli_nginx sed -i "s/#//g" /etc/nginx/conf.d/default.conf
-bin/cli_nginx sed -i "s/server_name magento.test/server_name ${DOMINIO}/g" /etc/nginx/conf.d/default.conf
+bin/fixowns
+bin/fixperms
+
+bin/magento cache:flush
 
 #Instalar Cron Magento
 bin/magento cron:install
 bin/cron start
+
+#Cambiar a modo develop
+bin/magento deploy:mode:set developer
 
 #desactivar modulo doble factor
 bin/magento module:disable Magento_TwoFactorAuth

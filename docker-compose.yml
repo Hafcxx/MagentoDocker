@@ -3,70 +3,78 @@ version: "3"
 services:
   
   nginx:
-    build:
-      context: ./docker/nginx/${NGINX_VERSION}
+    image: gusvasquez/magento-nginx:1.19
     ports:
       - 80:8000
-    links:
-      - phpfpm
-      - redis:cache
+      - 443:8443
     volumes:
       - ./magento:/var/www/html
-      - ./data/sock:/sock
-      - ./data/nginx_log:/var/log/nginx
+      - sockdata:/sock
+      #- log:/var/log/nginx
+      - ssldata:/etc/nginx/certs
 
   phpfpm:
-    build:
-      context: ./docker/php/${PHP_VERSION}
-    links:
-      - database
+    image: gusvasquez/magento-php:8.1-fpm
     volumes:
-      - ./docker/php/${PHP_VERSION}/.composer:/var/www/.composer
+      - ~/.composer:/var/www/.composer
       - ./magento:/var/www/html
-      - ./data/phpfpm_log:/var/log
-      - ./data/sock:/sock
-
-  redis:
-    image: redis:${REDIS_VERSION}
-    restart: on-failure:5
-    volumes:
-      - ./data/redis_data:/data
-    expose:
-      - 6379
+      #- log:/var/log
+      - sockdata:/sock
 
   database:
-    image: mariadb:${MARIADB_VERSION}
+    image: mariadb:10.4
     env_file: env/db.env
     volumes:
-      - ./data/maria_data:/var/lib/mysql
-      - ./data/maria_log:/var/log/mysql
+      - dbdata:/var/lib/mysql
+      #- log:/var/log/mysql
     ports:
       - 3306:3306
 
+  redis:
+    image: redis:6.2
+    restart: on-failure:5
+    volumes:
+      - redisdata:/data
+    ports:
+      - 6379:6379
+
   elasticsearch:
-    image: elasticsearch:${ELASTICSEARCH_VERSION}
+    image: gusvasquez/elasticsearch:7.17.1
     restart: always
     environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    cap_add:
-      - IPC_LOCK
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "cluster.routing.allocation.disk.threshold_enabled=false"
+      - "index.blocks.read_only_allow_delete"
     ports:
       - 9200:9200
+      - 9300:9300
     volumes:
-      - ./data/elastic_data:/usr/share/elasticsearch/data
-      - ./data/elastic_log:/var/log/elasticsearch
+      - elasticdata:/usr/share/elasticsearch/data
+      #- log:/var/log/elasticsearch
 
   rabbitmq:
-    image: rabbitmq:${RABBITMQ_VERSION}
+    image: gusvasquez/rabbitmq:3.9
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
     env_file: env/rabbitmq.env
     ports:
       - 15672:15672
       - 5672:5672
+
+  mailcatcher:
+    image: sj26/mailcatcher
+    ports:
+      - 1080:1080
+
+volumes:
+  sockdata:
+  #log:
+  ssldata:
+  dbdata:
+  redisdata:
+  elasticdata:
+  rabbitmqdata:
+
+
+

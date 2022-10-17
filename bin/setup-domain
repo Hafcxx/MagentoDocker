@@ -1,0 +1,18 @@
+#!/bin/bash
+set -o errexit
+
+[ -z "$1" ] && echo "Especifica un nombre de dominio (ej. magento.test)" && exit
+
+DOMINIO=$1
+
+if ! grep -q "$DOMINIO" /etc/hosts; then
+    echo "Se necesita su contraseña del sistema para agregar una entrada a /etc/hosts..."
+    echo "127.0.0.1 ::1 $DOMINIO" | sudo tee -a /etc/hosts
+fi
+
+echo "Set https://${DOMINIO}/ a web/secure/base_url and web/secure/base_url"
+bin/magento config:set web/secure/base_url https://"$DOMINIO"/
+bin/magento config:set web/unsecure/base_url https://"$DOMINIO"/
+
+echo "Generando Certificado SSL..."
+bin/setup-ssl "$DOMINIO"

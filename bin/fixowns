@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "Cambiando el dueño de los archivos..."
+
+if [ -z "$1" ]; then
+  bin/root_phpfpm chown -R app:app /var/www/
+else
+  bin/root_phpfpm chown -R app:app /var/www/html/"$1"
+fi
