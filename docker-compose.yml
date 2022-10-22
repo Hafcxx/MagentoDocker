@@ -20,6 +20,8 @@ services:
       - ./magento:/var/www/html
       #- log:/var/log
       - sockdata:/sock
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  
 
   database:
     image: mariadb:10.4
