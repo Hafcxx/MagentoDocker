@@ -20,8 +20,13 @@ cd magento2
 
 ### 2. Compilación 🔧
 2.0 Instalacion en 1 paso el comando bin/install (instala por defecto dominio: magento.test, version: 2.4.3-p1 y edicion: community)
+NOTA: esta complilacion soporta las versiones de magento desde 2.4.0 a 2.4.3-p3
 ```
-bin/install-docker 
+bin/install-docker $dominio $version $edicion
+```
+Ejemplo
+```
+bin/install-docker magento.test 2.4.3-p1 community
 ```
 2.1 Crear dominio en el archivo host
 _Linux_
