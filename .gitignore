@@ -3,3 +3,4 @@ docker/php/7.4/.composer/cache
 docker/php/7.4/.composer/auth.json
 magento/*
 *.sql
+bin/build
