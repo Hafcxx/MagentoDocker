@@ -2,5 +2,16 @@ data/*
 docker/php/7.4/.composer/cache
 docker/php/7.4/.composer/auth.json
 magento/*
+#permitir carpeta app
+!magento/app/
 *.sql
-bin/build
+bin/*
+magento/app/etc/vendor_path.php
+magento/app/etc/registration_globlist.php
+magento/app/etc/NonComposerComponentRegistration.php
+magento/app/etc/di.xml
+magento/app/etc/db_schema.xml
+magento/app/etc/config.php
+magento/app/bootstrap.php
+magento/app/autoload.php
+magento/app/.htaccess
